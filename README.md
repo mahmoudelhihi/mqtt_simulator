@@ -8,3 +8,7 @@ run:
 ```python
     python mqtt_simulate.py
 ```
+
+## Future Plans
+
+- add CLI for interactivity
