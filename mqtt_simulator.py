@@ -4,7 +4,7 @@ import time
 import random
 import threading
 
-broker = 'localhost'  # your EMQX broker IP or domain
+broker = 'localhost'  # EMQX broker IP or domain
 port = 1883           # default MQTT port
 
 # Number of simulated sensors
@@ -25,19 +25,25 @@ def sensor_task(client_id):
         topic = f'weight/{client_id}'
         client.publish(topic, json.dumps(payload))
         print(f'Published to {topic}: {payload}')
-        time.sleep(random.uniform(0.5, 2))  # Each sensor publishes at 1 Hz
+        time.sleep(random.uniform(1, 2))  # Each sensor publishes at 1 Hz
 
 # Create and start a thread for each sensor
-threads = []
-for i in range(NUM_SENSORS):
-    client_id = f"esp32_simulator_{i}"
-    thread = threading.Thread(target=sensor_task, args=(client_id,), daemon=True)
-    thread.start()
-    threads.append(thread)
+def thread():
+    threads = []
+    for i in range(NUM_SENSORS):
+        client_id = f"esp32_simulator_{i}"
+        thread = threading.Thread(target=sensor_task, args=(client_id,), daemon=True)
+        thread.start()
+        threads.append(thread)
 
 # Keep the main program running
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    print("Stopping simulation...")
+def main():
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Stopping simulation...")
+
+if __name__ == "__main__":
+    thread()
+    main()
