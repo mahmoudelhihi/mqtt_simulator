@@ -1,10 +1,10 @@
 import random
 from materials import Materials
-import uuid
+import ulid
 
 class Box:
     def __init__(self, max_w : int,  type : Materials, w : int = 0) -> None:
-        self.id = uuid.uuid4().int
+        self.id = ulid.new().str
         self.max_weight = max_w
         self.current_weight = w
         self.type = type

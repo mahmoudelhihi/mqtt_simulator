@@ -1,9 +1,9 @@
 from box import Box
-import uuid
+import ulid
 
 class GlobalBox:
     def __init__(self, c : int, box_list : list[Box]):
-        self.id = uuid.uuid4().int
+        self.id = ulid.new().str
         self.capacity = c
         if len(box_list) <= c:
             self.list_box = box_list
